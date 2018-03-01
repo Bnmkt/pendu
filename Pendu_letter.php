@@ -20,8 +20,12 @@ trait Pendu_letter
     }
     private function pushUsedLetters(...$postLetter){
         foreach ($postLetter as $letter){
-            if(!in_array($letter, $this->usedLetters)) {
-                $this->usedLetters[] = $letter;
+            if(ctype_alpha($letter)) {
+                if (!in_array($letter, $this->usedLetters)) {
+                    $this->usedLetters[] = $letter;
+                }
+            }else {
+                throw new \Error("Error");
             }
         }
     }

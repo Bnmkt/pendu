@@ -12,7 +12,6 @@ class Pendu
 {
     use Pendu_words;
     use Pendu_letter;
-
     const MAXTRIALS = 8;
     var $allLetters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
     var $try = 0;
@@ -23,6 +22,7 @@ class Pendu
     var $wordSize = 0;
     var $hiddenWord = "";
     var $usedLetters = [];
+    public $error = [];
      function __construct()
      {
          $post = ($_POST)?$_POST:[];
@@ -31,10 +31,19 @@ class Pendu
          $this->wordsList = file("datas/words.txt", FILE_IGNORE_NEW_LINES);
 
          if($post) {
-             $this->getSerializedData($post["datas"]);
-             $this->pushUsedLetters($letter);
+             if(isset($post["datas"])){
+                 try {
+                     $this->getSerializedData($post["datas"]);
+                     $this->pushUsedLetters($letter);
+                 }Catch(\Error $e){
+                    $this->error[] = $e;
+                 }
+             }
          }else{
              $this->index = $this->randomIndexFromWordlList($this->wordsList);
+         }
+         if($this->error){
+             print_r($this->error); die();
          }
          $this->word = $this->getWordFormIndex($this->index);
          $this->wordSize = strlen($this->word);
@@ -53,11 +62,15 @@ class Pendu
          include "./views/tpl/foot.php";
     }
     private function setSerializedDatas(){
-         return serialize(["wordIndex"=>$this->index, "usedLetters"=>$this->usedLetters]);
+         return rawurlencode(serialize(["wordIndex"=>$this->index, "usedLetters"=>$this->usedLetters]));
     }
     private function getSerializedData($datas){
-         $unserializedDatas = unserialize($datas);
-         $this->usedLetters = $unserializedDatas["usedLetters"];
-         $this->index = $unserializedDatas["wordIndex"];
+         try {
+             $unserializedDatas = unserialize(rawurldecode($datas));
+             $this->usedLetters = $unserializedDatas["usedLetters"];
+             $this->index = $unserializedDatas["wordIndex"];
+         }Catch(\Exception $e){
+             throw new \Error("Datas are unserializable");
+         }
     }
 }

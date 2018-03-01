@@ -12,7 +12,7 @@
     <p>Le mot à deviner compte <?= $this->wordSize ?>        lettres&nbsp;: <?= $this->hiddenWord ?></p>
 </div>
 <div>
-    <img src="images/pendu<?= $this->missed ?>.gif"
+    <img src="images/pendu<?= $this->missed%9 ?>.gif"
          alt="">
 </div>
 <div>

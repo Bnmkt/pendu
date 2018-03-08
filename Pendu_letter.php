@@ -24,8 +24,6 @@ trait Pendu_letter
                 if (!in_array($letter, $this->usedLetters)) {
                     $this->usedLetters[] = $letter;
                 }
-            }else {
-                throw new \Error("Error");
             }
         }
     }

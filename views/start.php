@@ -14,9 +14,7 @@
                     }
                     ?>
                 </select>
-                <input type="hidden"
-                       name="datas"
-                       value='<?= $this->setSerializedDatas() ?>'>
+
                 <input type="submit"
                        value="essayer cette lettre">
             </div>

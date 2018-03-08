@@ -13,7 +13,7 @@
 </div>
 <div>
     <img src="images/pendu<?= $this->missed%9 ?>.gif"
-         alt="">
+         alt="" width="300" height="240">
 </div>
 <div>
     <p>Voici les lettres que tu as déjà essayées&nbsp;: <?= $this->usedLetterStr() ?></p>

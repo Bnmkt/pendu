@@ -1,0 +1,7 @@
+const ajax = (url = '', fn, method = 'GET', data = null) => {
+	if(!url || !fn) return
+	let req = new XMLHttpRequest();
+	req.onreadystatechange = fn;
+	req.open(method, url, true);
+	req.send(data);
+}
